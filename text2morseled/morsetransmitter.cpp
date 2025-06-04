@@ -72,13 +72,15 @@ void MorseTransmitter::transmitText(const QString &text)
     QTimer::singleShot(0, this, &MorseTransmitter::sendNextSymbol);
 }
 
-void MorseTransmitter::setUnitDuration(int duration) {
+void MorseTransmitter::setUnitDuration(int duration) 
+{
     if (duration > 0) {
         m_unitDuration = duration;
     }
 }
 
-void MorseTransmitter::sendNextSymbol() {
+void MorseTransmitter::sendNextSymbol() 
+{
     if (m_currentPos >= m_morseString.length()) {
         m_ledInterface->Set(false);
         qDebug() << "End transmission";
