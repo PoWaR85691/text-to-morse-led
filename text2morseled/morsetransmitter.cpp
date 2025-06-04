@@ -91,7 +91,7 @@ void MorseTransmitter::sendNextSymbol() {
 
     if (c == '.') {
         m_ledInterface->Set(true);
-        QTimer::singleShot(m_unitDuration, this, [this]() { m_ledInterface->Set(false); });
+        QTimer::singleShot(1 * m_unitDuration, this, [this]() { m_ledInterface->Set(false); });
         QTimer::singleShot(2 * m_unitDuration, this, &MorseTransmitter::sendNextSymbol);
     } else if (c == '-') {
         m_ledInterface->Set(true);
@@ -101,7 +101,7 @@ void MorseTransmitter::sendNextSymbol() {
         // 1 before
         QTimer::singleShot(2 * m_unitDuration, this, &MorseTransmitter::sendNextSymbol);
     } else if (c == '/') {
-        // 1 before and 1 after
-        QTimer::singleShot(5 * m_unitDuration, this, &MorseTransmitter::sendNextSymbol);
+        // 3 before and 2 after
+        QTimer::singleShot(2 * m_unitDuration, this, &MorseTransmitter::sendNextSymbol);
     }
 }
