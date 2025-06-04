@@ -57,7 +57,7 @@ void MorseTransmitter::transmitText(const QString &text)
         if (s_morseCodeMap.contains(c)) {
             m_morseString += s_morseCodeMap[c] + " ";
         } else if (s_specialMorseCodeMap.contains(c)) {
-            m_morseString += " " + s_specialMorseCodeMap[c] + " ";
+            m_morseString += "/ " + s_specialMorseCodeMap[c] + " ";
         }
         else {
             qWarning() << "Unsupported char:" << c;
@@ -98,8 +98,10 @@ void MorseTransmitter::sendNextSymbol() {
         QTimer::singleShot(3 * m_unitDuration, this, [this]() { m_ledInterface->Set(false); });
         QTimer::singleShot(4 * m_unitDuration, this, &MorseTransmitter::sendNextSymbol);
     } else if (c == ' ') {
+        // 1 before
         QTimer::singleShot(2 * m_unitDuration, this, &MorseTransmitter::sendNextSymbol);
     } else if (c == '/') {
+        // 1 before and 1 after
         QTimer::singleShot(5 * m_unitDuration, this, &MorseTransmitter::sendNextSymbol);
     }
 }
