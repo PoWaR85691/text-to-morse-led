@@ -3,6 +3,7 @@
 #include "led.h"
 
 #include <QDebug>
+#include <qcoreapplication.h>
 
 int main(int argc, char *argv[])
 {
@@ -24,14 +25,15 @@ int main(int argc, char *argv[])
 
     QStringList args = parser.positionalArguments();
     if (args.count() != 1) {
-        parser.showHelp();
-        return EXIT_FAILURE;
+        parser.showHelp(EXIT_FAILURE);
     }
     Led led(args.at(0));
     if (!led.isValid()) {
         qCritical() << "Cannot open the led" << args.at(0);
         return EXIT_FAILURE;
     }
+
+    qInfo() << "Daemon started at su.powar.LedDaemon on the system bus";
 
     return app.exec();
 }

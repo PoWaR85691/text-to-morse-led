@@ -5,6 +5,7 @@
 #include "leddaemonadaptor.h"
 
 #include <fcntl.h>
+#include <qlogging.h>
 #include <unistd.h>
 
 static const QString LED_DIRECTORY = QStringLiteral("/sys/class/leds");
@@ -15,11 +16,24 @@ Led::Led(const QString &ledName, QObject *parent)
 {
     m_fd = open(QDir(QDir(LED_DIRECTORY).absoluteFilePath(ledName)).absoluteFilePath(LED_BRIGHTNESS).toLocal8Bit().data(), 
                 O_RDWR);
-    if (isValid()) {
-        new LedDaemonAdaptor(this);
-        QDBusConnection::systemBus().registerService(QStringLiteral("su.powar.LedDaemon"));
-        QDBusConnection::systemBus().registerObject(QStringLiteral("/su/powar/LedDaemon"), this);
+    if (m_fd <= 0) {
+        qCritical() << "Cannot open led file";
+        return;
     }
+
+    if (!QDBusConnection::systemBus().registerService(
+            QStringLiteral("su.powar.LedDaemon"))) {
+        qCritical() << "Cannot register service";
+        return;
+    }
+    if (!QDBusConnection::systemBus().registerObject(
+            QStringLiteral("/su/powar/LedDaemon"), this)) {
+        qCritical() << "Cannot register object";
+        return;
+    }
+    new LedDaemonAdaptor(this);
+
+    m_isValid = true;
 }
 
 Led::~Led()
@@ -29,7 +43,7 @@ Led::~Led()
 
 bool Led::isValid() const
 {
-    return m_fd >= 0;
+    return m_isValid;
 }
 
 bool Led::Set(bool On)

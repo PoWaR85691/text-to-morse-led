@@ -26,6 +26,8 @@ signals:
 
 private:
     int m_fd = -1;
+
+    bool m_isValid = false;
 };
 
 #endif
