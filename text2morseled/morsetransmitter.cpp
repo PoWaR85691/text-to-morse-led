@@ -2,6 +2,9 @@
 
 #include <QTimer>
 #include <cstdlib>
+#include <qcoreapplication.h>
+#include <qnamespace.h>
+#include <qobjectdefs.h>
 
 const QMap<QChar, QString> MorseTransmitter::s_morseCodeMap = {
     {'A', QStringLiteral(".-")},    {'B', QStringLiteral("-...")},  {'C', QStringLiteral("-.-.")},  {'D', QStringLiteral("-..")},
@@ -44,7 +47,8 @@ MorseTransmitter::MorseTransmitter(QObject *parent)
 {
     if (!m_ledInterface->isValid()) {
         qCritical() << "Cannot connect to DBus interface";
-        QCoreApplication::exit(EXIT_FAILURE);
+        QMetaObject::invokeMethod(qApp, &QCoreApplication::exit, Qt::QueuedConnection, EXIT_FAILURE);
+        return;
     }
 }
 
