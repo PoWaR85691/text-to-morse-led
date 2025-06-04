@@ -8,10 +8,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Core DBus)
 qt_standard_project_setup()
 
+include_directories(
+    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}
+    ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}
+)
+
 set(SOURCES
     main.cpp
+    morsetransmitter.h morsetransmitter.cpp
 )
 qt_add_dbus_interface(SOURCES ../led-daemon/su.powar.LedDaemon.xml dbusled)
+
+add_definitions(-DPROJECT_NAME=\"${PROJECT_NAME}\")
 
 add_executable(${PROJECT_NAME}
     ${SOURCES}

@@ -1,7 +1,5 @@
 # Text2MorseLed
 
-- *TODO: text2morseled utility*
-
 ## Build and run
 
 Build the project and install necessary files.
@@ -17,5 +15,6 @@ sudo led-daemon/led-daemon input3::capslock
 
 Now you can translate text to morse.
 ```bash
-text2morseled/text2morseled "Hello, world!"
+text2morseled/text2morseled 'Hello, world!'
+text2morseled/text2morseled 'Привет, мир!'
 ```
