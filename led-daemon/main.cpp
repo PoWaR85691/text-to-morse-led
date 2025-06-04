@@ -3,7 +3,6 @@
 #include "led.h"
 
 #include <QDebug>
-#include <qcoreapplication.h>
 
 int main(int argc, char *argv[])
 {

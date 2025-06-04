@@ -1,10 +1,6 @@
 #include "morsetransmitter.h"
 
 #include <QTimer>
-#include <cstdlib>
-#include <qcoreapplication.h>
-#include <qnamespace.h>
-#include <qobjectdefs.h>
 
 const QMap<QChar, QString> MorseTransmitter::s_morseCodeMap = {
     {'A', QStringLiteral(".-")},    {'B', QStringLiteral("-...")},  {'C', QStringLiteral("-.-.")},  {'D', QStringLiteral("-..")},
